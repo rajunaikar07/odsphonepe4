@@ -3,65 +3,81 @@ package com.example.odsphonepe.ui.home;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.odsphonepe.MainActivity;
 import com.example.odsphonepe.R;
+import com.google.android.material.tabs.TabLayout;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RechargeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+
 public class RechargeFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public RechargeFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RechargeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RechargeFragment newInstance(String param1, String param2) {
-        RechargeFragment fragment = new RechargeFragment();
-        Bundle args = new Bundle();
-
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private List<The_Slider_Item_Model_Class> listItems;
+    private ViewPager page1;
+    private TabLayout tabLayout1;
+    Handler handler;
+    Timer timer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_recharge, container, false);
+        page1 = root.findViewById(R.id.my_pager1);
+        tabLayout1 = root.findViewById(R.id.my_tablayout1);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recharge, container, false);
+
+
+        //listItems=new ArrayList<>();
+        listItems = new ArrayList<>();
+
+        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_18));
+        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_19));
+        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_20));
+        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_21));
+        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_22));
+        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_23));
+        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_24));
+
+        The_Slider_item_Page_Adapter itempager_adapter = new The_Slider_item_Page_Adapter(getContext(), listItems);
+        page1.setAdapter(itempager_adapter);
+
+        timer = new Timer();
+        handler = new Handler();
+        tabLayout1.setupWithViewPager(page1, true);
+
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        int i = page1.getCurrentItem();
+                        if (i == listItems.size() - 1) {
+                            i = 0;
+                            page1.setCurrentItem(i);
+                        } else {
+                            i++;
+                            page1.setCurrentItem(i, true);
+                        }
+
+                    }
+                });
+            }
+        }, 4000, 4000);
+
+
+
+        return root;
     }
 }

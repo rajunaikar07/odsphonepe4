@@ -29,21 +29,21 @@ public class HomeFragment extends Fragment {
     private List<The_Slider_Item_Model_Class> listItems;
     private ViewPager page;
     private TabLayout tabLayout;
-    //ImageView seeall;
     RechargeFragment rechargeFragment;
 
     private FragmentHomeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+            HomeViewModel homeViewModel =
+                    new ViewModelProvider(this).get(HomeViewModel.class);
 
-        page = root.findViewById(R.id.my_pager);
-        tabLayout = root.findViewById(R.id.my_tablayout);
+            binding = FragmentHomeBinding.inflate(inflater, container, false);
+            View root = binding.getRoot();
+
+            page = root.findViewById(R.id.my_pager);
+            tabLayout = root.findViewById(R.id.my_tablayout);
 //      seeall=root.findViewById(R.id.seeAll);
 //      seeall.setOnClickListener(new View.OnClickListener() {
 //          @Override
@@ -52,44 +52,56 @@ public class HomeFragment extends Fragment {
 //          }
 //      });
 
-        root.findViewById(R.id.seeAll).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment fragment = new RechargeFragment();
-// Insert the fragment by replacing any existing fragment
-                FragmentTransaction fragmentTransaction= getFragmentManager().beginTransaction();
-                //FragmentManager fragmentManager = getFragmentManager();
-                fragmentTransaction.replace(R.id.nav_host_fragment_activity_main,fragment).commit();
-                        //.replace(R.id.containerid, fragment)
+            root.findViewById(R.id.seeAll).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Fragment fragment = new RechargeFragment();
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.containerid,fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
 
-            }
-        });
-        listItems = new ArrayList<>();
+                }
+            });
+            listItems = new ArrayList<>();
 
-        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_18));
-        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_19));
-        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_20));
-        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_21));
-        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_22));
-        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_23));
-        listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_24));
+            listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_22));
+            listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_23));
+            listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_26));
+            listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_27));
+            listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_22));
+            listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_26));
+            listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_24));
+            listItems.add(new The_Slider_Item_Model_Class(R.drawable.img_28));
 
-        The_Slider_item_Page_Adapter itempager_adapter = new The_Slider_item_Page_Adapter(getContext(), listItems);
-        page.setAdapter(itempager_adapter);
+            The_Slider_item_Page_Adapter itempager_adapter = new The_Slider_item_Page_Adapter(getContext(), listItems);
+            page.setAdapter(itempager_adapter);
 
-        java.util.Timer timer = new java.util.Timer();
-        timer.scheduleAtFixedRate(new The_slider_timer(), 1000, 2000);
-        tabLayout.setupWithViewPager(page, true);
+            java.util.Timer timer = new java.util.Timer();
+            timer.scheduleAtFixedRate(new The_slider_timer(), 800, 1800);
+            tabLayout.setupWithViewPager(page, true);
+            return root;
 
-        return root;
 
-    }
+        }
+
 
     private void loadFragment(RechargeFragment rechargeFragment) {
-        FragmentManager fm=getFragmentManager();
-        FragmentTransaction veriabelname=fm.beginTransaction();
-        veriabelname.replace(R.id.container,rechargeFragment);
-        veriabelname.commit();
+//        FragmentManager fm=getFragmentManager();
+//        FragmentTransaction veriabelname=fm.beginTransaction();
+//        veriabelname.replace(R.id.container,rechargeFragment);
+//        veriabelname.commit();
+        FragmentManager fragmentManager=getFragmentManager();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.containerid,rechargeFragment );
+
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+
+
+//
 
     }
 

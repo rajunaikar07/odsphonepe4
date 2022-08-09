@@ -22,7 +22,6 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private ActivityMainBinding binding;
 
     @Override
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-
     }
+
 }
 
